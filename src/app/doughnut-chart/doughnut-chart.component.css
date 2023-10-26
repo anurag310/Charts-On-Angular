@@ -1,0 +1,37 @@
+.chart-and-labels-container {
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .chart-container {
+    width: 70%; /* Adjust the width as needed */
+    padding: 15px;
+  }
+  
+  .labels-container {
+    width: 30%; /* Adjust the width as needed */
+    padding: 95px;
+  }
+  
+  ul {
+    list-style-type: none; /* Remove default list markers */
+    padding: 0;
+  }
+  
+  li {
+    margin: 5px 0;
+    font-weight: bold;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    position: relative; /* Set li position to relative for custom marker */
+    padding-left: 20px; /* Adjust the padding to control the marker size */
+  }
+  
+  li::before {
+    content: "\2022"; /* Unicode character for a bullet (•) */
+    position: absolute;
+    left: 0;
+    
+  }
+  
+  
+  
