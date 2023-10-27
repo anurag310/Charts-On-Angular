@@ -19,21 +19,20 @@ export class DoughnutChartComponent implements OnInit {
     const total = data.reduce((a, b) => a + b, 0);
     const percentageData = data.map(value => ((value / total) * 100).toFixed(2));
     const label = ['Python', 'C++', 'JavaScript', 'Angular', 'NodeJS'];
-    const backgroundColors = ['red', 'green', 'lime', 'orange', 'blue'];
-    const textColors = backgroundColors; 
+    const backgroundColors = ['red', 'yellow', 'lime', 'orange', 'blue'];
+    const textColors = backgroundColors;
     const labelsWithPercentage = label.map((label, index) => ({
       label: `${label} (${percentageData[index]}%)`,
-     // backgroundColor: backgroundColors[index], // Set the background color here
       color: textColors[index],
     }));
     this.data = labelsWithPercentage;
-   
+
     Chart.register(percentageCenterPlugin);
 
     this.chart = new Chart("MyChart", {
       type: 'doughnut',
       data: {
-        labels: label,
+       labels: labelsWithPercentage.map(item => item.label), // Us,
         datasets: [{
           label: 'My First Dataset',
           data: data,
@@ -46,7 +45,24 @@ export class DoughnutChartComponent implements OnInit {
         plugins: {
           tooltip: {
             enabled: false,
-          }
+          },
+          legend: {
+            display: true,
+            position: 'left',
+            labels: {
+              usePointStyle: true,
+              font :{
+                weight:"bold",
+                size:18
+              }
+            }
+          },
+        },
+        animation: {
+          animateScale: true,  // Enable scaling animation
+          animateRotate: true, // Enable rotation animation
+          duration: 1000,      // Animation duration in milliseconds
+          easing: 'easeOutQuart', // Easing function for the animation
         }
       }
     });
@@ -55,7 +71,7 @@ export class DoughnutChartComponent implements OnInit {
 
 const percentageCenterPlugin = {
   id: 'percentageCenterPlugin',
-  beforeDraw: function(chart: { width: any; height: any; ctx: any; }) {
+  beforeDraw: function (chart: { width: any; height: any; ctx: any; }) {
     const width = chart.width;
     const height = chart.height;
     const ctx = chart.ctx;
@@ -74,9 +90,8 @@ const percentageCenterPlugin = {
     const centerX = width / 2;
     const centerY = height / 2;
 
-    ctx.fillText(text, centerX + 10, centerY + 20);
-    
+    ctx.fillText(text, centerX +110 , centerY + 5);
+
     ctx.save();
   },
 };
-
