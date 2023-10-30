@@ -32,6 +32,13 @@
     left: 0;
     
   }
+
+  .btn {
+    display: flex;
+    /* Display buttons in a vertical column */
+    align-items: flex-start; /* Align buttons to the left */
+    margin-left: 80%; /* Adjust the margin for spacing */
+  }
   
   
   

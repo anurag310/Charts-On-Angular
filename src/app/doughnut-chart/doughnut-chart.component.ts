@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import Chart from 'chart.js/auto';
 
 @Component({
@@ -9,12 +9,37 @@ import Chart from 'chart.js/auto';
 export class DoughnutChartComponent implements OnInit {
   public chart: any;
   data: any;
-
-  ngOnInit() {
+  currentCanvasId: string = 'MyChart';
+  @ViewChild('dynamicCanvas') dynamicCanvas!: ElementRef;
+  ngOnInit(): void {
+    
+  }
+  ngAfterViewInit() {
+    // Initialize the canvas with a default ID
+    this.dynamicCanvas.nativeElement.id = this.currentCanvasId;
     this.createChart();
+  }
+ 
+  
+  create(canvasId: string) {
+    debugger;
+    if (this.chart) {
+      this.chart.destroy();
+    }
+
+    this.currentCanvasId = canvasId;
+    this.dynamicCanvas.nativeElement.id = canvasId;
+    if (canvasId === 'MyChart') {
+      this.createChart();
+    } else if (canvasId === 'MyChart2') {
+      this.DemoChart2();
+    } else if (canvasId === 'MyChart3') {
+      this.DemoChart3();
+    }
   }
 
   createChart() {
+    debugger
     const data = [240, 100, 432, 253, 342];
     const total = data.reduce((a, b) => a + b, 0);
     const percentageData = data.map(value => ((value / total) * 100).toFixed(2));
@@ -29,7 +54,7 @@ export class DoughnutChartComponent implements OnInit {
 
     Chart.register(percentageCenterPlugin);
 
-    this.chart = new Chart("MyChart", {
+    this.chart = new Chart(this.currentCanvasId, {
       type: 'doughnut',
       data: {
        labels: labelsWithPercentage.map(item => item.label), // Us,
@@ -46,9 +71,158 @@ export class DoughnutChartComponent implements OnInit {
           tooltip: {
             enabled: false,
           },
+         
+          legend: {
+            title: {
+              display: true,
+              text: 'Courses',
+              font:{
+                weight:'bold',
+                size:20
+              },
+              padding: {
+                top: 10,
+                bottom: 20
+            },
+          },
+            display: true,
+            position: 'left',
+            labels: {
+              usePointStyle: true,
+              font :{
+                weight:"bold",
+                size:18
+              }
+            },
+          },
+        },
+        animation: {
+          animateScale: true,  // Enable scaling animation
+          animateRotate: true, // Enable rotation animation
+          duration: 1000,      // Animation duration in milliseconds
+          easing: 'easeOutQuart', // Easing function for the animation
+        }
+      }
+    });
+  }
+  //Second
+  record:any;
+  DemoChart2() {
+    debugger
+    const data = [240, 100, 432];
+    const total = data.reduce((a, b) => a + b, 0);
+    const percentageData = data.map(value => ((value / total) * 100).toFixed(2));
+    const label = ['Apple', 'Kiwi', 'Orange'];
+    const backgroundColors = ['red', 'orange', 'lime'];
+    const textColors = backgroundColors;
+    const labelsWithPercentage = label.map((label, index) => ({
+      label: `${label} (${percentageData[index]}%)`,
+      color: textColors[index],
+    }));
+    this.data = labelsWithPercentage;
+
+    Chart.register(percentageCenterPlugin);
+
+    this.chart = new Chart(this.currentCanvasId, {
+      type: 'doughnut',
+      data: {
+       labels: labelsWithPercentage.map(item => item.label), // Us,
+        datasets: [{
+          label: 'My First Dataset',
+          data: data,
+          backgroundColor: backgroundColors,
+          hoverOffset: 4
+        }],
+      },
+      options: {
+        aspectRatio: 2.5,
+        plugins: {
+          tooltip: {
+            enabled: false,
+          },
+          
           legend: {
             display: true,
             position: 'left',
+            title: {
+              display: true,
+              text: 'Fruits',
+              font:{
+                weight:'bold',
+                size:20
+              },
+              padding: {
+                top: 10,
+                bottom: 20
+            },
+          },
+            labels: {
+              usePointStyle: true,
+              font :{
+                weight:"bold",
+                size:18
+              }
+            }
+          },
+        },
+        animation: {
+          animateScale: true,  // Enable scaling animation
+          animateRotate: true, // Enable rotation animation
+          duration: 1000,      // Animation duration in milliseconds
+          easing: 'easeOutQuart', // Easing function for the animation
+        }
+      }
+    });
+  }
+  DemoChart3() {
+    debugger
+    const data = [140, 200, 442];
+    const total = data.reduce((a, b) => a + b, 0);
+    const percentageData = data.map(value => ((value / total) * 100).toFixed(2));
+    const label = ['Maths', 'Physics', 'Chemistry'];
+    const backgroundColors = ['red', 'orange', 'lime'];
+    const textColors = backgroundColors;
+    const labelsWithPercentage = label.map((label, index) => ({
+      label: `${label} (${percentageData[index]}%)`,
+      color: textColors[index],
+    }));
+    this.data = labelsWithPercentage;
+
+    Chart.register(percentageCenterPlugin);
+
+    this.chart = new Chart(this.currentCanvasId, {
+      type: 'doughnut',
+      data: {
+       labels: labelsWithPercentage.map(item => item.label), // Us,
+        datasets: [{
+          label: 'My First Dataset',
+          data: data,
+          backgroundColor: backgroundColors,
+          hoverOffset: 4
+        }],
+      },
+      options: {
+        aspectRatio: 2.5,
+        plugins: {
+          tooltip: {
+            enabled: false,
+          },
+          
+          legend: {
+            display: true,
+            position: 'left',
+            title: {
+              display: true,
+              text: 'Subjects',
+              font:{
+                weight:'bold',
+                size:20
+              },
+              padding: {
+                top: 10,
+                bottom: 20
+            },
+          },
             labels: {
               usePointStyle: true,
               font :{
@@ -68,6 +242,9 @@ export class DoughnutChartComponent implements OnInit {
     });
   }
 }
+
+
+
 
 const percentageCenterPlugin = {
   id: 'percentageCenterPlugin',
